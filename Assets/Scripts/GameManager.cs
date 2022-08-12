@@ -7,12 +7,16 @@ public class GameManager : MonoBehaviour
     private bool _isGameOver;
 
 
-    private void Update()
+   public void ReloadGame()
     {
-        if (_isGameOver == true && Input.GetKeyDown(KeyCode.R))
-        {
+        if (_isGameOver == true)
             SceneManager.LoadScene(0);
-        }
+    }
+
+    public void LoadMenu()
+    {
+        if (_isGameOver == true)
+            SceneManager.LoadScene(1);
     }
     public void GameOver()
     {

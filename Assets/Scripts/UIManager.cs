@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Sprite[] _livesSprites;
     [SerializeField]
-    private TextMeshProUGUI _gameOverText;
+    private GameObject _gameOverScreen;
     private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _livesSprites[currentLives];
         if(currentLives==0)
         {
-            _gameOverText.gameObject.SetActive(true);
+            _gameOverScreen.SetActive(true);
             _gameManager.GameOver();
         }
     }
