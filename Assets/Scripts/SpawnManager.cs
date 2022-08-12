@@ -6,16 +6,21 @@ public class SpawnManager : MonoBehaviour
 {
     [SerializeField]
     private GameObject _enemyPrefab;
+    [SerializeField]
+    private GameObject[] _powerupPrefabs; 
     private float _spawnPosY = 8.0f;
     private float _spawnPosX = 8.0f;
-    private float _startDelay = 2.0f;
-    private float _spawnInterval = 1.0f;
+    private float _startEnemyDelay = 2.0f;
+    private float _spawnEnemyInterval = 1.0f;
+    private float _startPowerupDelay = 5.0f;
+    private float _spawnPowerupInterval = 20.0f;
     private bool _stopSpawning = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        InvokeRepeating("SpawnEnemies", _startDelay, _spawnInterval);
+        InvokeRepeating("SpawnEnemies", _startEnemyDelay, _spawnEnemyInterval);
+        InvokeRepeating("SpawnPowerup", _startPowerupDelay, _spawnPowerupInterval);
     }
 
 
@@ -30,6 +35,18 @@ public class SpawnManager : MonoBehaviour
         }
 
     }
+
+    void SpawnPowerup()
+    {
+        if(_stopSpawning==false)
+        {
+            float randomX = Random.Range(-_spawnPosX, _spawnPosX);
+            Vector3 spawnPos = new Vector3(randomX, _spawnPosY, 0);
+            int powerupIndex = Random.Range(0, _powerupPrefabs.Length);
+            Instantiate(_powerupPrefabs[powerupIndex], spawnPos, Quaternion.identity);
+        }
+    }
+    
 
 
     public void OnPlayerDeath()
