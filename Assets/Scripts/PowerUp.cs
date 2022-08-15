@@ -10,10 +10,13 @@ public class PowerUp : MonoBehaviour
     private PlayerController _player;
     [SerializeField]
     private int _powerupID;
+    [SerializeField]
+    private AudioClip _powerupSfx;
     // Start is called before the first frame update
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>();
+
     }
 
     // Update is called once per frame
@@ -29,27 +32,28 @@ public class PowerUp : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            if(_player!=null)
+            AudioSource.PlayClipAtPoint(_powerupSfx, transform.position, 1);
+            if (_player != null)
             {
-                switch(_powerupID)
+                switch (_powerupID)
                 {
                     case 0:
-                         _player.TripleShotActive();
+                        _player.TripleShotActive();
                         break;
                     case 1:
                         _player.SpeedBoostActive();
                         break;
-                   case 2:
+                    case 2:
                         _player.ShieldActive();
                         break;
                     default:
                         //default value
                         break;
-                }    
-               
+                }
             }
+
             Destroy(gameObject);
         }
     }

@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 8.0f;
-    private float _speedBoost =2;
+    private float _speedBoost = 2;
     private float _xBound = 11.3f;
     private float _upperBound = -3.8f;
     private float _lowerBound = 0f;
@@ -26,14 +26,21 @@ public class PlayerController : MonoBehaviour
     private bool _isShieldActive;
     [SerializeField]
     private GameObject _shieldVisualizer;
+    [SerializeField]
+    private GameObject _rightEngineVisualizer, _leftEngineVisualizer;
     private int _score;
     private UIManager _uiManager;
+    [SerializeField]
+    private AudioClip _laserShotSfx;
+
+    private AudioSource _playerAudioSource;
     // Start is called before the first frame update
     void Start()
     {
         transform.position = _startPostion;
-        _spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _playerAudioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -54,10 +61,10 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-        
-            transform.Translate(direction * _speed * Time.deltaTime);
-         
-        
+
+        transform.Translate(direction * _speed * Time.deltaTime);
+
+
 
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, _upperBound, _lowerBound), 0);
@@ -86,11 +93,13 @@ public class PlayerController : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + _offset, Quaternion.identity);
         }
 
+        _playerAudioSource.PlayOneShot(_laserShotSfx, 0.6f);
+
     }
 
     public void Damage()
     {
-        if(_isShieldActive==true)
+        if (_isShieldActive == true)
         {
             _isShieldActive = false;
             _shieldVisualizer.SetActive(false);
@@ -98,11 +107,25 @@ public class PlayerController : MonoBehaviour
         }
         _lives--;
         _uiManager.UpdateLives(_lives);
-        if (_lives < 1)
+
+        if (_lives == 2)
+        {
+            _rightEngineVisualizer.SetActive(true);
+
+        }
+        else if (_lives == 1)
+        {
+            _leftEngineVisualizer.SetActive(true);
+        }
+        else if (_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
             Destroy(gameObject);
         }
+
+
+
+
     }
 
     public void TripleShotActive()

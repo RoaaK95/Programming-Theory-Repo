@@ -10,20 +10,18 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] _powerupPrefabs; 
     private float _spawnPosY = 8.0f;
     private float _spawnPosX = 8.0f;
-    private float _startEnemyDelay = 2.0f;
+    private float _startEnemyDelay = 3.0f;
     private float _spawnEnemyInterval = 1.0f;
-    private float _startPowerupDelay = 5.0f;
+    private float _startPowerupDelay = 6.0f;
     private float _spawnPowerupInterval = 20.0f;
     private bool _stopSpawning = false;
 
-    // Start is called before the first frame update
-    void Start()
+
+   public void StartSpawning()
     {
         InvokeRepeating("SpawnEnemies", _startEnemyDelay, _spawnEnemyInterval);
         InvokeRepeating("SpawnPowerup", _startPowerupDelay, _spawnPowerupInterval);
     }
-
-
 
     void SpawnEnemies()
     {

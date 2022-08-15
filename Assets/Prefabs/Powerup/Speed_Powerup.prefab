@@ -159,3 +159,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 3
   _powerupID: 1
+  _powerupSfx: {fileID: 8300000, guid: f0f0554e5f593724b8aa57c619c3c5d2, type: 3}
