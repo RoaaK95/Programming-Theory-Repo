@@ -7,9 +7,16 @@ using UnityEditor;
 #endif
 public class MainMenu : MonoBehaviour
 {
+   
     public void LoadGame()
     {
+        if(MainManager.Instance!=null)
+        {
+          MainManager.Instance.LoadBestScore();
+        }
         SceneManager.LoadScene(0);
+        
+        
     }
 
     public void InstructionsButton()
@@ -18,6 +25,7 @@ public class MainMenu : MonoBehaviour
     }
     public void Exit()
     {
+        MainManager.Instance.SaveBestScore();
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 

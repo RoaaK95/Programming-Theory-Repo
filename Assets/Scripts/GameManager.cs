@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     }
     public void Exit()
     {
+        MainManager.Instance.SaveBestScore();
 #if UNITY_EDITOR
         EditorApplication.ExitPlaymode();
 

@@ -28,19 +28,22 @@ public class PlayerController : MonoBehaviour
     private GameObject _shieldVisualizer;
     [SerializeField]
     private GameObject _rightEngineVisualizer, _leftEngineVisualizer;
-    private int _score;
+    public int _score, _bestScore;
     private UIManager _uiManager;
     [SerializeField]
     private AudioClip _laserShotSfx;
-
+    [SerializeField]
+    private GameObject _explosionPrefab;
     private AudioSource _playerAudioSource;
     // Start is called before the first frame update
     void Start()
     {
+       
         transform.position = _startPostion;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         _playerAudioSource = GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -119,6 +122,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (_lives < 1)
         {
+            Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             _spawnManager.OnPlayerDeath();
             Destroy(gameObject);
         }
@@ -167,5 +171,16 @@ public class PlayerController : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
+    }
+
+    public void CheckForBestScore()
+    {
+        if (_score > _bestScore)
+        {
+            _bestScore = _score;
+            _uiManager._bestScoreText.text = "Best: " + _bestScore;
+
+        }
+
     }
 }
