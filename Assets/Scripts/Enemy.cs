@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
         {
             if (_player != null)
             {
+                //ABSTRACTION
                 _player.Damage();
 
 

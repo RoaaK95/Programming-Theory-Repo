@@ -19,6 +19,7 @@ public class SpawnManager : MonoBehaviour
 
    public void StartSpawning()
     {
+        //ABSTRACTION
         InvokeRepeating("SpawnEnemies", _startEnemyDelay, _spawnEnemyInterval);
         InvokeRepeating("SpawnPowerup", _startPowerupDelay, _spawnPowerupInterval);
     }

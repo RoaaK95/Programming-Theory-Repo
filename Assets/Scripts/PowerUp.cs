@@ -2,59 +2,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PowerUp : MonoBehaviour
+public abstract class PowerUp : MonoBehaviour
 {
     [SerializeField]
-    private float _speed = 3f;
-    private float _lowerBound = -6.0f;
-    private PlayerController _player;
+    protected float _speed = 3f;
+    protected float _lowerBound = -6.0f;
+    protected PlayerController _player;
     [SerializeField]
-    private int _powerupID;
-    [SerializeField]
-    private AudioClip _powerupSfx;
+    protected AudioClip _powerupSfx;
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         _player = GameObject.Find("Player").GetComponent<PlayerController>();
 
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
-        transform.Translate(Vector2.down * Time.deltaTime * _speed);
-        if (transform.position.y < _lowerBound)
-        {
-            Destroy(gameObject);
-        }
+        //ABSTRACTION
+        Movement();
 
     }
+    //POLYMORPHISM
+    public abstract void Movement();
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
             AudioSource.PlayClipAtPoint(_powerupSfx, transform.position, 1);
             if (_player != null)
             {
-                switch (_powerupID)
-                {
-                    case 0:
-                        _player.TripleShotActive();
-                        break;
-                    case 1:
-                        _player.SpeedBoostActive();
-                        break;
-                    case 2:
-                        _player.ShieldActive();
-                        break;
-                    default:
-                        //default value
-                        break;
-                }
+                //Action On trigger
             }
-
             Destroy(gameObject);
         }
+
+
+        /*  private  void  OnTriggerEnter2D(Collider2D other)
+          {
+              if (other.CompareTag("Player"))
+              {
+                  AudioSource.PlayClipAtPoint(_powerupSfx, transform.position, 1);
+                  if (_player != null)
+                  {
+                      switch (_powerupID)
+                      {
+                          case 0:
+                              _player.TripleShotActive();
+                              break;
+                          case 1:
+                              _player.SpeedBoostActive();
+                              break;
+                          case 2:
+                              _player.ShieldActive();
+                              break;
+                          default:
+                              //default value
+                              break;
+                      }
+                  }
+
+                  Destroy(gameObject);
+              }
+
+          }*/
     }
 }

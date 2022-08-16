@@ -5,6 +5,7 @@ using System;
 using System.IO;
 public class MainManager : MonoBehaviour
 {
+    //ENCAPSULATION
     public static MainManager Instance { get; private set;}
     public int _bestScore;
     private void Awake()
